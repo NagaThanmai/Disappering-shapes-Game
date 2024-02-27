@@ -1,0 +1,307 @@
+<html>
+    <head>
+	<title>Spontanity Game</title>
+		<style type="text/css">
+			body{
+				padding:0;
+				margin:0;
+				border:0;
+				background-color:#F4ECF7;
+			}
+
+			h1{
+				color:blue;
+			}
+			
+			h3{
+				color:brown;
+			}
+			
+			#shape{
+				width:200px;
+				height:200px;
+				background-color:red;
+				display:none;
+				position:relative;
+			}
+			
+			#time{
+				color:74b6a7;
+				font-weight:bold;
+				font-size:20px;
+				font-family:sans-serif;
+			    }
+			
+			.analysis{
+				color:red;
+				font-weight:normal;
+				font-size:20px;
+				font-family:ReithSans;
+			     }
+			
+			#main{
+				background-image:url("C:\Users\jntha\Documents\Mini\div1image.png");
+				background-size:100% auto;
+				background-position:center;
+				align:center;
+				width:auto;
+				height:160px;
+				border-bottom:1px green solid;
+			     }
+			
+			#firstDiv{
+				margin-left:10px;
+				width:50%;
+				float:left;
+				}
+			
+			#secondDiv{
+				position:relative;
+				top:-150px;
+				width:50%;
+				text-align:right;
+				}
+			
+			#space{
+				width:100%;
+				}
+			
+			#win{
+				position:absolute;
+				background-image: url("C:\Users\jntha\Documents\Mini\winners.png");
+				margin:auto;
+				display:none;
+				width:930px;
+				height:530px;
+				top:0;
+				border:0 auto;
+				top:30px;
+				left:280px;
+                             }
+			
+			#first{
+				width:33%;
+				height:300px;
+				background-color:red;
+				float:left;
+				opacity:0.7;
+			}
+			
+			#second{
+				width:33%;
+				height:300px;
+				background-color:green;
+				float:left;
+				opacity:0.7;
+				margin-left:4.6px;
+			}
+			
+			#third{
+				width:33%;
+				height:300px;
+				float:right;
+				background-color:blue;
+				opacity:0.7;
+			}
+			
+			.textStyle{
+				text-align:center;
+				font-family:ReithSans;
+				font-size:20px;
+				font-weight:bold;
+				margin:auto;
+				margin-top:30px;
+				color:white;
+			}
+			
+			.finalStyle{
+				margin-top:30px;
+				color:#D35400;
+				font-weight:bold;
+				font-size:40px;
+			}
+			
+			.final{
+				color:#641E16;
+			}
+		</style>
+	    </head>
+	<body>
+	       <div id="main">
+		    <div id="firstDiv">
+		              <h1>Check your reactions!</h1>
+			      <h3>Click the shapes appearing asap Let's go---></h3>
+			      <p><button id="start">START</button>	<button id="stop">STOP</button></p>
+                    </div>
+	            <div id="secondDiv">
+			<p id="time">Time taken : <span id="timer"></span></p>
+			<p class="analysis" style="color:#744fa7">Best time : <span id="best"></span></p>
+			<p class="analysis">Average time : <span id="average"></span></p>
+		    </div>
+		</div>
+		<div id="space">
+		     <div id="shape"></div>
+                </div>
+		<div id="win" class="textStyle">
+		      <div id="first">
+			<p style="font-weight:bold">Player 1</p>
+			<p id="box1a"></p>
+			<p id="box1b"></p>
+			<p id="box1c"></p>
+		       </div>
+		       <div id="second">
+			        <p style="font-weight:bold,text-align:center;">Player 2</p>
+				<p id="box2a"></p>
+				<p id="box2b"></p>
+				<p id="box2c"></p>
+		        </div>
+			<div id="third">
+			        <p style="font-weight:bold,text-align:center;">Player 3</p>
+				<p id="box3a"></p>
+				<p id="box3b"></p>
+				<p id="box3c"></p>
+			</div>
+			<div class="textStyle finalStyle">
+		                <p>The Winner is <span class="final" id="final3"></span> w.r.t total time</p>
+				<p>The Winner is <span class="final" id="final1"></span> w.r.t best time</p>
+				<p>The Winner is <span class="final" id="final2"></span> w.r.t average time</p>
+			</div>
+		   </div>
+		
+		<script type="text/javascript">
+			var sumArray = [];
+			var aveArray = [];
+			var bestArray = [];
+			var count1 = 0;
+			var count2 = 0;
+			var timeArray = [];
+			var best = 1000000.0;
+			var average = 0.0;
+			var current=0;
+			var attempts = 0;
+			var maxAttempts = 10;
+			
+			function colorRandom(){
+				var values = '0123456789ABCDEF'.split('');
+				var color = "#";
+				for(var i=0;i<6;i++){
+					color += values[Math.floor(Math.random()*16)];
+				}
+				return color;
+			}
+			var start = new Date().getTime();
+		        function shapeAppear(){
+			        if(Math.random()>0.5){
+					document.getElementById("shape").style.borderRadius = "50%";
+				}else{
+					document.getElementById("shape").style.borderRadius = "0";
+				}
+				document.getElementById("shape").style.backgroundColor = colorRandom(); 
+				document.getElementById("shape").style.display = "block";
+				document.getElementById("shape").style.top = Math.random()*400+"px";
+				document.getElementById("shape").style.left = Math.random()*400+"px";
+				document.getElementById("shape").style.width = Math.random()*150 + 50 +"px";
+				document.getElementById("shape").style.height = Math.random()*150 + 50 +"px";
+				start = new Date().getTime();
+			}
+			
+			function delayAppear(){
+				setTimeout(shapeAppear,Math.random()*1000);
+			}
+			
+			function funcStart(){
+				attempts = 0;
+				start = new Date().getTime();
+				delayAppear();
+				best = 0;
+				document.getElementById("shape").onclick = function(){
+					attempts++;
+					var end = new Date().getTime();
+					document.getElementById("shape").style.display = "none";
+					current = (end-start)/1000;
+					document.getElementById("timer").innerHTML = current + "sec";
+					if(best < current && best!=0){
+						document.getElementById("best").innerHTML = best;
+					}else{
+						document.getElementById("best").innerHTML = current;
+						best = current;
+					}
+					timeArray.push(current);
+					average = average*(timeArray.length-1)/(timeArray.length) + current/timeArray.length;
+					document.getElementById("average").innerHTML = average;
+					if(attempts>=maxAttempts){
+						alert(maxAttempts+" attempts were completed");
+					}
+					delayAppear();
+				}
+			}
+			document.getElementById("start").onclick = function(){
+				timeArray = [];
+				best = 0.0;
+				average = 0.0;
+				count1++;
+				funcStart();
+			}
+			document.getElementById("stop").onclick = function(){
+				count2++;
+				sumArray[count1-1]=0;
+				for(var i=0;i<timeArray.length;i++){
+					sumArray[count1-1] += timeArray[i];
+				}
+				document.getElementById("shape").style.display = "none";
+				aveArray[count1-1] = average;
+				bestArray[count1-1] = best;
+				alert("Time played:"+sumArray[count1-1]+"\nBest time:"+best+"\nAverage time:"+average);
+				best=0;
+				average=0;
+				timeArray=[];
+				document.getElementById("best").innerHTML = "";
+				document.getElementById("average").innerHTML = "";
+				document.getElementById("timer").innerHTML = "";
+				if(count1==3 && count2==3){
+					document.getElementById("win").style.display = "block";
+					document.getElementById("box1a").innerHTML = "Time played : "+sumArray[0].toPrecision(3);
+					document.getElementById("box1b").innerHTML = "Best time : "+bestArray[0].toPrecision(3);
+					document.getElementById("box1c").innerHTML = "Average time : "+aveArray[0].toPrecision(3);
+					document.getElementById("box2a").innerHTML = "Time played : "+sumArray[1].toPrecision(3);
+					document.getElementById("box2b").innerHTML = "Best time : "+bestArray[1].toPrecision(3);
+					document.getElementById("box2c").innerHTML = "Average time : "+aveArray[1].toPrecision(3);
+					document.getElementById("box3a").innerHTML = "Time played : "+sumArray[2].toPrecision(3);
+					document.getElementById("box3b").innerHTML = "Best time : "+bestArray[2].toPrecision(3);
+					document.getElementById("box3c").innerHTML = "Average time : "+aveArray[2].toPrecision(3);
+					
+					var firstBest = "Person1";
+					var firstAve = "Person1";
+					var firstTotal = "Person1";
+					
+					var firstBestValue = bestArray[0];
+					var firstAveValue = aveArray[0];
+					var firstTotalValue = sumArray[0];
+					
+					for(var i=1;i<count1;i++){
+						if(firstBestValue > bestArray[i]){
+							firstBest = "person"+(i+1);
+							firstBestValue = bestArray[i];
+						}
+						if(firstAveValue > aveArray[i]){
+							firstAve = "person"+(i+1);
+							firstAveValue = aveArray[i];
+						}
+						if(firstTotalValue > sumArray[i]){
+							firstTotal = "person"+(i+1);
+							firstTotalValue = sumArray[i];
+						}
+					}
+					document.getElementById("final1").innerHTML = firstBest;
+					document.getElementById("final2").innerHTML = firstAve;
+					document.getElementById("final3").innerHTML = firstTotal;
+                                  }
+			}
+			//winners #641E16
+			//winners1 #F4F6F7
+		</script>
+	
+	</body>
+
+</html>
+
